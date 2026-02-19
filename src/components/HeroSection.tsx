@@ -135,8 +135,8 @@ const HeroSection = () => {
             {/* CTA Buttons */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.7 }} className="flex flex-wrap gap-3">
               <motion.a
-                href="/resume.pdf"
-                download
+                href="Resume.pdf"
+                download="Sanjay_Krishna_Resume.pdf"
                 whileHover={{ scale: 1.05, boxShadow: "0 0 30px hsl(24 95% 53% / 0.4)" }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-mono font-semibold transition-all duration-200 tracking-wide"
