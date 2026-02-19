@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -297,4 +297,9 @@ html {
   66% {
     transform: translate(-60px, 30px) scale(0.9);
   }
+}
+
+/* Premium heading font */
+.font-heading {
+  font-family: 'Outfit', 'Space Grotesk', sans-serif;
 }
