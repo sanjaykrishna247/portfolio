@@ -61,7 +61,7 @@ const FooterSection = () => {
             Made with <Heart className="w-3 h-3 text-primary/40" /> and a lot of caffeine
           </p>
           <p className="text-[10px] text-muted-foreground/20 font-mono">
-            © {new Date().getFullYear()} All rights reserved.
+            © {new Date().getFullYear()} All rights reserved. <span className="text-primary/10 ml-2">v1.3 (Debug)</span>
           </p>
         </motion.div>
       </div>
