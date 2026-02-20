@@ -45,41 +45,169 @@ const getAllTech = (projects: Project[]) => {
 const ProjectCard = ({ project, index, accent }: { key?: React.Key; project: Project; index: number; accent: "orange" | "ember" }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-30px" });
+  const [isHovered, setIsHovered] = useState(false);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const rotateX = useTransform(my, [-100, 100], [5, -5]);
-  const rotateY = useTransform(mx, [-100, 100], [-5, 5]);
+  const rotateX = useTransform(my, [-150, 150], [8, -8]);
+  const rotateY = useTransform(mx, [-150, 150], [-8, 8]);
+  const cardGlow = useTransform(
+    [mx, my],
+    ([latestX, latestY]: number[]) => {
+      const x = ((latestX as number) + 150) / 300 * 100;
+      const y = ((latestY as number) + 150) / 300 * 100;
+      return `radial-gradient(circle at ${x}% ${y}%, hsl(${accent === "orange" ? "24 95% 53%" : "16 90% 48%"} / 0.12), transparent 60%)`;
+    }
+  );
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     mx.set(e.clientX - r.left - r.width / 2);
     my.set(e.clientY - r.top - r.height / 2);
   };
-  const handleMouseLeave = () => { mx.set(0); my.set(0); };
+  const handleMouseLeave = () => { mx.set(0); my.set(0); setIsHovered(false); };
   const glowHsl = accent === "orange" ? "24 95% 53%" : "16 90% 48%";
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.35, delay: index * 0.04 }}
+      layout
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      exit={{ opacity: 0, y: -20, scale: 0.9 }}
+      transition={{ duration: 0.45, delay: index * 0.06, type: "spring", stiffness: 100, damping: 15 }}
       onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, perspective: 800 }}
-      whileHover={{ boxShadow: `0 0 24px hsl(${glowHsl} / 0.18), 0 0 50px hsl(${glowHsl} / 0.05)`, borderColor: `hsl(${glowHsl} / 0.35)` }}
-      className="group border border-border rounded-xl p-5 bg-card/30 transition-all duration-200 flex flex-col cursor-pointer"
+      style={{ rotateX, rotateY, perspective: 900, transformStyle: "preserve-3d" }}
+      whileHover={{
+        scale: 1.03,
+        boxShadow: `0 8px 32px hsl(${glowHsl} / 0.2), 0 0 60px hsl(${glowHsl} / 0.08), inset 0 1px 0 hsl(${glowHsl} / 0.1)`,
+        borderColor: `hsl(${glowHsl} / 0.5)`,
+      }}
+      className="group relative border border-border rounded-xl p-5 bg-card/30 backdrop-blur-sm flex flex-col cursor-pointer overflow-hidden"
     >
-      <h4 className="text-sm font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors duration-150 leading-snug">{project.title}</h4>
-      <p className="text-xs text-muted-foreground mb-3 flex-1 leading-relaxed">{project.description}</p>
-      <div className="flex flex-wrap gap-1 mb-2.5">
-        {project.tags.map((tag) => (
-          <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded-md border border-primary/15 text-primary/60">{tag}</span>
+      {/* Animated spotlight that follows cursor */}
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl"
+        style={{ background: cardGlow }}
+      />
+
+      {/* Shimmer sweep on hover */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none rounded-xl"
+        initial={{ x: "-100%", opacity: 0 }}
+        animate={isHovered ? { x: "200%", opacity: 1 } : { x: "-100%", opacity: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        style={{
+          background: `linear-gradient(90deg, transparent, hsl(${glowHsl} / 0.08), hsl(${glowHsl} / 0.15), hsl(${glowHsl} / 0.08), transparent)`,
+          width: "50%",
+        }}
+      />
+
+      {/* Animated top border gradient */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[2px] rounded-t-xl"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={isHovered ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{
+          background: `linear-gradient(90deg, transparent, hsl(${glowHsl}), transparent)`,
+          transformOrigin: "left",
+        }}
+      />
+
+      {/* Floating micro-particles on hover */}
+      {isHovered && (
+        <>
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full pointer-events-none"
+              initial={{
+                x: 30 + i * 60,
+                y: 80,
+                scale: 0,
+                opacity: 0,
+              }}
+              animate={{
+                y: [80, 20 + i * 10, -10],
+                scale: [0, 1, 0.5],
+                opacity: [0, 0.6, 0],
+              }}
+              transition={{
+                duration: 1.5 + i * 0.3,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeOut",
+              }}
+              style={{
+                width: 3 + (i % 2) * 2,
+                height: 3 + (i % 2) * 2,
+                background: `hsl(${glowHsl} / 0.5)`,
+                boxShadow: `0 0 6px hsl(${glowHsl} / 0.3)`,
+              }}
+            />
+          ))}
+        </>
+      )}
+
+      {/* Title with underline animation */}
+      <div className="relative z-10">
+        <h4 className="text-sm font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors duration-200 leading-snug">
+          {project.title}
+        </h4>
+        <motion.div
+          className="h-[1px] mb-2"
+          initial={{ scaleX: 0 }}
+          animate={isHovered ? { scaleX: 1 } : { scaleX: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          style={{
+            background: `linear-gradient(90deg, hsl(${glowHsl} / 0.5), transparent)`,
+            transformOrigin: "left",
+          }}
+        />
+      </div>
+
+      <p className="relative z-10 text-xs text-muted-foreground mb-3 flex-1 leading-relaxed group-hover:text-muted-foreground/90 transition-colors duration-200">{project.description}</p>
+
+      {/* Tags with staggered reveal */}
+      <div className="relative z-10 flex flex-wrap gap-1 mb-2.5">
+        {project.tags.map((tag, i) => (
+          <motion.span
+            key={tag}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: index * 0.06 + 0.3 + i * 0.08, type: "spring", stiffness: 200 }}
+            whileHover={{
+              scale: 1.12,
+              backgroundColor: `hsl(${glowHsl} / 0.15)`,
+              borderColor: `hsl(${glowHsl} / 0.4)`,
+            }}
+            className="text-[10px] font-mono px-2 py-0.5 rounded-md border border-primary/15 text-primary/60 transition-all duration-150 cursor-pointer"
+          >
+            {tag}
+          </motion.span>
         ))}
       </div>
-      <div className="flex flex-wrap gap-1 pt-2.5 border-t border-border/40">
-        {project.tech.map((t) => (
-          <motion.span key={t} whileHover={{ scale: 1.08, borderColor: "hsl(24, 95%, 53%)" }} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-secondary/40 text-muted-foreground/80 border border-transparent cursor-pointer transition-all duration-150">{t}</motion.span>
+
+      {/* Tech stack with staggered reveal */}
+      <div className="relative z-10 flex flex-wrap gap-1 pt-2.5 border-t border-border/40">
+        {project.tech.map((t, i) => (
+          <motion.span
+            key={t}
+            initial={{ opacity: 0, x: -8 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: index * 0.06 + 0.4 + i * 0.06, type: "spring", stiffness: 150 }}
+            whileHover={{
+              scale: 1.12,
+              borderColor: `hsl(${glowHsl})`,
+              color: `hsl(${glowHsl})`,
+              boxShadow: `0 0 10px hsl(${glowHsl} / 0.2)`,
+            }}
+            className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-secondary/40 text-muted-foreground/80 border border-transparent cursor-pointer transition-all duration-150"
+          >
+            {t}
+          </motion.span>
         ))}
       </div>
     </motion.div>
