@@ -49,6 +49,7 @@ const Counter = ({ target, suffix = "", label }: { target: number; suffix?: stri
 const HeroSection = () => {
   const tagline = "Building systems that think, learn, adapt, and scale.";
   const { displayed, done } = useTypingEffect(tagline, 40);
+  const [imageError, setImageError] = useState(false);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -180,11 +181,19 @@ const HeroSection = () => {
                 transition={{ type: "spring", stiffness: 300, damping: 15 }}
                 className="relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full border-2 border-primary/20 overflow-hidden bg-card/50 backdrop-blur-sm flex items-center justify-center group cursor-pointer"
               >
-                {/* Replace src with your photo: <img src="/your-photo.jpg" alt="Sanjay Krishna K" className="w-full h-full object-cover" /> */}
-                <div className="flex flex-col items-center gap-3 text-muted-foreground group-hover:text-primary transition-colors duration-300">
-                  <User className="w-16 h-16 md:w-20 md:h-20" />
-                  <span className="text-xs font-mono tracking-wider uppercase">Add Photo</span>
-                </div>
+                {!imageError ? (
+                  <img
+                    src={`${import.meta.env.BASE_URL}profile.png`}
+                    alt="Sanjay Krishna K"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div className="flex flex-col items-center gap-3 text-muted-foreground group-hover:text-primary transition-colors duration-300">
+                    <User className="w-16 h-16 md:w-20 md:h-20" />
+                    <span className="text-xs font-mono tracking-wider uppercase">Add Photo</span>
+                  </div>
+                )}
               </motion.div>
 
               {/* Floating accent dots */}
