@@ -183,7 +183,7 @@ const HeroSection = () => {
               >
                 {!imageError ? (
                   <img
-                    src={`${import.meta.env.BASE_URL}profile.png`}
+                    src={`${import.meta.env.BASE_URL}profile.jpg`}
                     alt="Sanjay Krishna K"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={() => setImageError(true)}
