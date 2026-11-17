@@ -24,18 +24,14 @@ const ProjectPlayer = ({ slug, label }: { slug: string; label: string }) => {
     if (!el || reduced) return;
     // The player autoplays on its own; this only pauses it while it is off screen to save CPU,
     // and resumes it when it comes back. If the observer never fires, the animation still plays.
-    let seen = false;
     const io = new IntersectionObserver(
       ([e]) => {
         const p = ref.current;
         if (!p) return;
-        if (e.isIntersecting) {
-          // first time it scrolls into view: play the story from the start
-          if (!seen) { seen = true; p.seekTo(0); }
-          if (!p.isPlaying()) p.play();
-        } else if (p.isPlaying()) p.pause();
+        if (e.isIntersecting) { if (!p.isPlaying()) p.play(); }
+        else if (p.isPlaying()) p.pause();
       },
-      { threshold: 0.35 },
+      { threshold: 0, rootMargin: "200px 0px" }, // start just before it scrolls into view
     );
     io.observe(el);
     return () => io.disconnect();
@@ -55,8 +51,8 @@ const ProjectPlayer = ({ slug, label }: { slug: string; label: string }) => {
         compositionHeight={H}
         loop
         autoPlay={!reduced}
-        // a fully drawn frame, shown until it starts (and kept when motion is reduced)
-        initialFrame={reduced ? 150 : 60}
+        // every frame is fully drawn, so frame 0 is a complete scene
+        initialFrame={reduced ? 150 : 0}
         controls={false}
         clickToPlay={false}
         doubleClickToFullscreen={false}
