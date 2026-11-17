@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Remotion frame renderer (dev only)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet" />
+    <style>html,body{margin:0;background:#000}</style>
+  </head>
+  <body>
+    <!-- Used by scripts/render-projects.mjs to capture each frame of the project animations.
+         Not part of the production build (vite only builds index.html). -->
+    <div id="root"></div>
+    <script type="module" src="/src/remotion/render-entry.tsx"></script>
+  </body>
+</html>

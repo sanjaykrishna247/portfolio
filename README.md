@@ -17,9 +17,15 @@ All text lives in [`src/data/portfolio.ts`](src/data/portfolio.ts): profile, pro
 
 ## Project animations (Remotion)
 
-The animated panels next to each featured project are Remotion compositions in
-[`src/remotion/compositions.tsx`](src/remotion/compositions.tsx), played in the page with `@remotion/player`.
-They are drawn in code (the ARCEUX Control one runs a real A* search) and only play while visible.
+The animations next to each featured project are Remotion compositions in
+[`src/remotion/compositions.tsx`](src/remotion/compositions.tsx) (the ARCEUX Control one runs a real A* search).
+They are rendered to MP4 + a poster image in `public/projects/`, so they autoplay in every browser
+without a click and a card is never empty. After editing a composition, re-render:
+
+```sh
+npm run dev                                   # in one terminal
+node scripts/render-projects.mjs              # in another (needs Chrome and ffmpeg)
+```
 
 ## Showreel video (HyperFrames)
 
