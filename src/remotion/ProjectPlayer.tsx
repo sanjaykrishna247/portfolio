@@ -12,36 +12,26 @@ const bySlug: Record<string, ComponentType> = {
 
 export const hasAnimation = (slug: string) => slug in bySlug;
 
-/** Plays a project's Remotion composition only while it is on screen. */
+/** Plays a project's Remotion composition from page load, looping. */
 const ProjectPlayer = ({ slug, label }: { slug: string; label: string }) => {
   const ref = useRef<PlayerRef>(null);
-  const box = useRef<HTMLDivElement>(null);
 
   const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
-    const el = box.current;
-    if (!el || reduced) return;
-    // The player autoplays on its own; this only pauses it while it is off screen to save CPU,
-    // and resumes it when it comes back. If the observer never fires, the animation still plays.
-    const io = new IntersectionObserver(
-      ([e]) => {
-        const p = ref.current;
-        if (!p) return;
-        if (e.isIntersecting) { if (!p.isPlaying()) p.play(); }
-        else if (p.isPlaying()) p.pause();
-      },
-      { threshold: 0, rootMargin: "200px 0px" }, // start just before it scrolls into view
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    if (reduced) return;
+    // Play from the moment the site loads; only pause while the browser tab is hidden.
+    ref.current?.play();
+    const onVis = () => (document.hidden ? ref.current?.pause() : ref.current?.play());
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
   }, [reduced]);
 
   const Comp = bySlug[slug];
   if (!Comp) return null;
 
   return (
-    <div ref={box} role="img" aria-label={label} className="overflow-hidden">
+    <div role="img" aria-label={label} className="overflow-hidden">
       <Player
         ref={ref}
         component={Comp}

@@ -355,6 +355,11 @@ export const DriftChart = () => {
         {SCORES.slice(0, n).map((v, i) => (
           <circle key={i} cx={px(i)} cy={py(v)} r={6} fill={v < THRESH && i > 5 ? "#7c2d12" : "#fff"} stroke="#fff" strokeWidth={2} />
         ))}
+        {/* "live" pulse on the latest reading, so the chart never looks frozen */}
+        {[0, 15].map((off) => {
+          const t = ((f + off) % 30) / 30;
+          return <circle key={off} cx={px(n - 1)} cy={py(SCORES[n - 1])} r={8 + t * 22} fill="none" stroke="#fff" strokeWidth={2} opacity={(1 - t) * 0.8} />;
+        })}
       </svg>
       {crossed && (
         <div style={{ position: "absolute", left: px(8) - 70, top: py(SCORES[8]) + 22, transform: `scale(${alert})`, background: "#7c2d12", color: "#fff", fontFamily: SANS, fontWeight: 700, fontSize: 17, padding: "8px 14px", borderRadius: 10 }}>

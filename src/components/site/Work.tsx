@@ -12,8 +12,8 @@ const RevealTitle = ({ text, className }: { text: string; className?: string }) 
     className={className}
     initial="hidden"
     whileInView="show"
-    viewport={{ once: true, margin: "-60px" }}
-    transition={{ staggerChildren: 0.08, delayChildren: 0.15 }}
+    viewport={{ once: true, margin: "0px 0px 200px 0px" }}
+    transition={{ staggerChildren: 0.05 }}
     aria-label={text}
   >
     {text.split(" ").map((w, i) => (
@@ -21,7 +21,7 @@ const RevealTitle = ({ text, className }: { text: string; className?: string }) 
         <motion.span
           className="inline-block"
           variants={{ hidden: { y: "105%", rotate: 4 }, show: { y: 0, rotate: 0 } }}
-          transition={{ duration: 0.8, ease }}
+          transition={{ duration: 0.6, ease }}
         >
           {w}
         </motion.span>
@@ -53,12 +53,8 @@ const Work = () => {
           {featured.map((p, i) => {
             const flip = i % 2 === 1;
             return (
-              <motion.article
+              <article
                 key={p.slug}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.6, ease }}
                 className="grid items-center gap-8 lg:grid-cols-12 lg:gap-14"
               >
                 <a
@@ -83,7 +79,7 @@ const Work = () => {
                     <motion.span
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, margin: "0px 0px 200px 0px" }}
                       transition={{ duration: 0.7, ease }}
                       className="font-serif text-4xl normal-case tracking-normal"
                       style={{ color: p.color }}
@@ -93,7 +89,7 @@ const Work = () => {
                     <motion.span
                       initial={{ scaleX: 0 }}
                       whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, margin: "0px 0px 200px 0px" }}
                       transition={{ duration: 0.8, delay: 0.2, ease }}
                       className="h-px w-8 origin-left bg-foreground/25"
                     />
@@ -125,7 +121,7 @@ const Work = () => {
                     </a>
                   </div>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>
