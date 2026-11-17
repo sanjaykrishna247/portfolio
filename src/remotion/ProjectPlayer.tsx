@@ -41,6 +41,10 @@ const ProjectPlayer = ({ slug, label }: { slug: string; label: string }) => {
         compositionHeight={H}
         loop
         autoPlay={!reduced}
+        // These animations have no sound. Starting muted with no shared audio tags means the
+        // browser's autoplay rules never apply, so they play on load without the visitor clicking.
+        initiallyMuted
+        numberOfSharedAudioTags={0}
         // every frame is fully drawn, so frame 0 is a complete scene
         initialFrame={reduced ? 150 : 0}
         controls={false}
