@@ -1,10 +1,8 @@
-import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
 import { projects } from "@/data/portfolio";
-
-// Remotion is loaded in its own chunk so the hero renders immediately
-const ProjectPlayer = lazy(() => import("@/remotion/ProjectPlayer"));
+// Remotion lives in its own chunk (see vite.config.ts) that downloads in parallel with the page
+import ProjectPlayer from "@/remotion/ProjectPlayer";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -59,8 +57,8 @@ const Work = () => {
                 key={p.slug}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.9, ease }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, ease }}
                 className="grid items-center gap-8 lg:grid-cols-12 lg:gap-14"
               >
                 <a
@@ -73,9 +71,7 @@ const Work = () => {
                   aria-label={`${p.title}: open ${p.live ? "live site" : "source code"}`}
                 >
                   <div className="transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                    <Suspense fallback={<div className="aspect-[800/520] w-full" />}>
-                      <ProjectPlayer slug={p.slug} label={`Animated illustration of ${p.title}`} />
-                    </Suspense>
+                    <ProjectPlayer slug={p.slug} label={`Animated illustration of ${p.title}`} />
                   </div>
                   <span className="absolute right-4 top-4 grid h-11 w-11 scale-75 place-items-center rounded-full bg-white text-foreground opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100">
                     <ArrowUpRight className="h-5 w-5" />

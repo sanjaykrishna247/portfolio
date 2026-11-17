@@ -17,10 +17,10 @@ export const Preloader = ({ onDone }: { onDone: () => void }) => {
     const t0 = performance.now();
     let raf = 0;
     const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / 1300);
+      const p = Math.min(1, (t - t0) / 550);
       setN(Math.round(100 * (1 - Math.pow(1 - p, 3))));
       if (p < 1) raf = requestAnimationFrame(tick);
-      else setTimeout(() => setLeaving(true), 150);
+      else setLeaving(true);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
@@ -31,7 +31,7 @@ export const Preloader = ({ onDone }: { onDone: () => void }) => {
       className="fixed inset-0 z-[300] flex flex-col justify-between bg-foreground p-6 text-background sm:p-10"
       initial={{ clipPath: "inset(0 0 0% 0)" }}
       animate={leaving ? { clipPath: "inset(0 0 100% 0)" } : {}}
-      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+      transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
       onAnimationComplete={() => leaving && onDone()}
       aria-hidden
     >

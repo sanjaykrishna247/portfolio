@@ -24,7 +24,7 @@ const SplitWord = ({ text, delay, className }: { text: string; delay: number; cl
         className="inline-block"
         initial={{ y: "110%" }}
         animate={A({ y: 0 })}
-        transition={{ duration: 0.9, delay: delay + i * 0.035, ease }}
+        transition={{ duration: 0.65, delay: delay + i * 0.022, ease }}
       >
         {c}
       </motion.span>
@@ -128,17 +128,17 @@ const HeroInner = () => {
 
         <div className="mt-5 flex items-end justify-between gap-6">
           <motion.h1 style={{ y: nameY, opacity: nameOpacity }} className="font-serif text-[17vw] leading-[0.86] tracking-[-0.02em] text-foreground sm:text-[12vw] lg:text-[10.5rem]">
-            <SplitWord text="Sanjay" delay={0.15} />
+            <SplitWord text="Sanjay" delay={0} />
             <br />
-            <SplitWord text="Krishna" delay={0.35} /> <SplitWord text="K" delay={0.6} className="italic text-flame" />
+            <SplitWord text="Krishna" delay={0.08} /> <SplitWord text="K" delay={0.22} className="italic text-flame" />
           </motion.h1>
-          <motion.div initial={{ opacity: 0, scale: 0.6, rotate: -40 }} animate={A({ opacity: 1, scale: 1, rotate: 0 })} transition={{ delay: 0.9, duration: 0.9, ease }} className="mb-4 hidden text-foreground md:block">
+          <motion.div initial={{ opacity: 0, scale: 0.6, rotate: -40 }} animate={A({ opacity: 1, scale: 1, rotate: 0 })} transition={{ delay: 0.35, duration: 0.7, ease }} className="mb-4 hidden text-foreground md:block">
             <Badge />
           </motion.div>
         </div>
 
         <div className="mt-12 grid items-start gap-12 lg:grid-cols-12">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={A({ opacity: 1, y: 0 })} transition={{ delay: 0.8, duration: 0.8, ease }} className="lg:col-span-5">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={A({ opacity: 1, y: 0 })} transition={{ delay: 0.2, duration: 0.6, ease }} className="lg:col-span-5">
             <p className="text-2xl font-medium leading-snug text-foreground sm:text-[28px]">
               AI &amp; full-stack developer. I build web products with{" "}
               <span className="font-serif text-[1.15em] italic text-primary">real intelligence</span> inside, from the model to the interface.
@@ -184,7 +184,7 @@ const HeroInner = () => {
             </dl>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 40, rotate: 1.5 }} animate={A({ opacity: 1, y: 0, rotate: 0 })} transition={{ delay: 0.5, duration: 1, ease }} className="lg:col-span-7">
+          <motion.div initial={{ opacity: 0, y: 40, rotate: 1.5 }} animate={A({ opacity: 1, y: 0, rotate: 0 })} transition={{ delay: 0.1, duration: 0.7, ease }} className="lg:col-span-7">
             <Showreel />
           </motion.div>
         </div>
