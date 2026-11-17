@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #f7f4ee;
+        --ink: #141414;
+        --muted: #6b655c;
+        --line: #ddd6c9;
+        --accent: #e4572e;
+        --serif: "Instrument Serif", Georgia, serif;
+        --sans: "Inter", Helvetica, Arial, sans-serif;
+        --mono: "JetBrains Mono", Menlo, monospace;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: var(--sans); color: var(--ink); }
+      .clip { position: absolute; inset: 0; }
+
+      /* faint grid that sits under every scene */
+      #grid {
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 120px 120px;
+        opacity: 0.45;
+      }
+
+      /* ── Scene 1: name ───────────────────── */
+      #s1 { display: flex; flex-direction: column; justify-content: center; padding-left: 180px; }
+      .kicker { font-family: var(--mono); font-size: 30px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+      .name { font-family: var(--serif); font-size: 230px; line-height: 0.9; letter-spacing: -0.02em; margin-top: 30px; }
+      .name .row { display: block; overflow: hidden; padding-bottom: 14px; }
+      .name .ch { display: inline-block; }
+      .name em { color: var(--accent); }
+      .role { margin-top: 44px; font-size: 44px; font-weight: 500; }
+      .role b { color: var(--accent); font-weight: 600; }
+      #bar1 { position: absolute; left: 180px; bottom: 150px; height: 6px; width: 1560px; background: var(--ink); transform-origin: left; }
+
+      /* ── Scene 2: projects ───────────────── */
+      #s2 { overflow: hidden; }
+      .proj { position: absolute; inset: 0; background: var(--ground); display: grid; grid-template-columns: 720px 1fr; }
+      .proj .swatch { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 90px 80px; color: #fff; }
+      .proj .num { font-family: var(--serif); font-size: 260px; line-height: 0.8; }
+      .proj .tag { font-family: var(--mono); font-size: 30px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.85; }
+      .proj .body { display: flex; flex-direction: column; justify-content: center; padding: 0 140px 0 110px; }
+      .proj h2 { font-family: var(--serif); font-weight: 400; font-size: 120px; line-height: 0.95; letter-spacing: -0.01em; }
+      .proj p { margin-top: 36px; font-size: 38px; line-height: 1.35; color: var(--muted); max-width: 900px; }
+      .chips { margin-top: 48px; display: flex; gap: 16px; flex-wrap: wrap; }
+      .chip { font-family: var(--mono); font-size: 30px; padding: 12px 24px; border: 2px solid var(--ink); border-radius: 999px; }
+      .shape { position: absolute; right: 70px; bottom: 80px; width: 220px; height: 220px; border: 6px solid rgba(255,255,255,0.85); }
+
+      /* ── Scene 3: numbers ────────────────── */
+      #s3 { display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; padding: 0 180px; gap: 60px; }
+      .stat { border-top: 6px solid var(--ink); padding-top: 40px; }
+      .stat .v { font-family: var(--serif); font-size: 240px; line-height: 0.9; }
+      .stat .l { margin-top: 20px; font-size: 36px; color: var(--muted); }
+      .stat:nth-child(2) .v { color: var(--accent); }
+
+      /* ── Scene 4: end card ───────────────── */
+      #s4 { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: var(--ink); color: var(--ground); }
+      #s4 h2 { font-family: var(--serif); font-weight: 400; font-size: 180px; line-height: 0.95; }
+      #s4 h2 em { color: var(--accent); }
+      #s4 .handle { margin-top: 60px; font-family: var(--mono); font-size: 34px; letter-spacing: 0.06em; opacity: 0.8; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.5" data-width="1920" data-height="1080">
+      <div id="grid" class="clip" data-start="0" data-duration="20.5" data-track-index="0"></div>
+
+      <!-- Scene 1 · 0–3s -->
+      <section id="s1" class="clip" data-start="0" data-duration="3" data-track-index="1">
+        <p class="kicker">Portfolio · 2026</p>
+        <h1 class="name">
+          <span class="row" id="row1">Sanjay</span>
+          <span class="row" id="row2">Krishna <em>K</em></span>
+        </h1>
+        <p class="role">AI &amp; Full-Stack Developer · <b>SKCET</b></p>
+        <div id="bar1"></div>
+      </section>
+
+      <!-- Scene 2 · 3–15s : five projects, 2.4s each -->
+      <section id="s2" class="clip" data-start="3" data-duration="12" data-track-index="2">
+        <div class="proj" data-layout-allow-overlap id="p1">
+          <div class="swatch" style="background:#3730a3"><span class="tag">AI agents</span><span class="num">01</span><div class="shape" style="border-radius:50%"></div></div>
+          <div class="body"><h2>NEXUS</h2><p>Three LLM agents scan a codebase's dependencies and plan the upgrades.</p>
+            <div class="chips"><span class="chip">FastAPI</span><span class="chip">XGBoost</span><span class="chip">Ollama</span></div></div>
+        </div>
+        <div class="proj" data-layout-allow-overlap id="p2">
+          <div class="swatch" style="background:#0f766e"><span class="tag">Healthcare AI</span><span class="num">02</span><div class="shape"></div></div>
+          <div class="body"><h2>MedFollow AI</h2><p>Predicts missed follow-ups and reaches patients by call, WhatsApp and email.</p>
+            <div class="chips"><span class="chip">scikit-learn</span><span class="chip">Twilio</span><span class="chip">React</span></div></div>
+        </div>
+        <div class="proj" data-layout-allow-overlap id="p3">
+          <div class="swatch" style="background:#1f2937"><span class="tag">Smart India Hackathon</span><span class="num">03</span><div class="shape" style="border-radius:50% 50% 0 0"></div></div>
+          <div class="body"><h2>ARCEUX</h2><p>A real-time 3D robot, built part by part in code.</p>
+            <div class="chips"><span class="chip">Three.js</span><span class="chip">React</span></div></div>
+        </div>
+        <div class="proj" data-layout-allow-overlap id="p4">
+          <div class="swatch" style="background:#b45309"><span class="tag">Robotics UI</span><span class="num">04</span><div class="shape" style="transform:rotate(45deg)"></div></div>
+          <div class="body"><h2>ARCEUX Control</h2><p>Browser robot console with A* path planning and arm kinematics.</p>
+            <div class="chips"><span class="chip">A*</span><span class="chip">IK</span><span class="chip">PWA</span></div></div>
+        </div>
+        <div class="proj" data-layout-allow-overlap id="p5">
+          <div class="swatch" style="background:#e4572e"><span class="tag">Multi-agent</span><span class="num">05</span><div class="shape" style="border-radius:50%;width:160px;height:160px"></div></div>
+          <div class="body"><h2>Dribble AI</h2><p>Spots when a student starts slipping and plans their week.</p>
+            <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">Celery</span><span class="chip">Ollama</span></div></div>
+        </div>
+      </section>
+
+      <!-- Scene 3 · 15–17.5s -->
+      <section id="s3" class="clip" data-start="15" data-duration="2.5" data-track-index="3">
+        <div class="stat"><div class="v" id="n1">11</div><div class="l">projects on GitHub</div></div>
+        <div class="stat"><div class="v" id="n2">3</div><div class="l">live on the web</div></div>
+        <div class="stat"><div class="v">SIH</div><div class="l">Smart India Hackathon 2026</div></div>
+      </section>
+
+      <!-- Scene 4 · 17.5–20.5s -->
+      <section id="s4" class="clip" data-start="17.5" data-duration="3" data-track-index="4">
+        <h2>Let's build <em>something.</em></h2>
+        <p class="handle">github.com/sanjaykrishna247</p>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Split the name rows into characters (deterministic, runs once before seeking)
+      ["row1", "row2"].forEach((id) => {
+        const el = document.getElementById(id);
+        const walk = (node) => {
+          [...node.childNodes].forEach((n) => {
+            if (n.nodeType === 3) {
+              const frag = document.createDocumentFragment();
+              [...n.textContent].forEach((c) => {
+                const s = document.createElement("span");
+                s.className = "ch";
+                s.textContent = c === " " ? " " : c;
+                frag.appendChild(s);
+              });
+              n.replaceWith(frag);
+            } else walk(n);
+          });
+        };
+        walk(el);
+      });
+
+      // Scene 1
+      tl.from("#s1 .kicker", { y: 30, opacity: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+      tl.from("#row1 .ch", { yPercent: 110, duration: 0.7, stagger: 0.04, ease: "expo.out" }, 0.2);
+      tl.from("#row2 .ch", { yPercent: 110, duration: 0.7, stagger: 0.04, ease: "expo.out" }, 0.45);
+      tl.from("#s1 .role", { y: 30, opacity: 0, duration: 0.6, ease: "power3.out" }, 1.0);
+      tl.from("#bar1", { scaleX: 0, duration: 1.2, ease: "expo.inOut" }, 0.8);
+      tl.to("#s1 .name, #s1 .role, #s1 .kicker", { y: -40, opacity: 0, duration: 0.35, ease: "power2.in" }, 2.6);
+      tl.to("#bar1", { scaleX: 0, transformOrigin: "right", duration: 0.4, ease: "power2.in" }, 2.55);
+
+      // Scene 2: each project wipes in from the right, holds, then the next covers it
+      ["#p1", "#p2", "#p3", "#p4", "#p5"].forEach((id, i) => {
+        const t = 3 + i * 2.4;
+        tl.fromTo(id, { clipPath: "inset(0 0 0 100%)" }, { clipPath: "inset(0 0 0 0%)", duration: 0.55, ease: "expo.inOut" }, t);
+        tl.from(`${id} .num`, { yPercent: 40, opacity: 0, duration: 0.6, ease: "expo.out" }, t + 0.25);
+        tl.from(`${id} h2`, { x: 80, opacity: 0, duration: 0.6, ease: "expo.out" }, t + 0.3);
+        tl.from(`${id} p`, { x: 60, opacity: 0, duration: 0.6, ease: "expo.out" }, t + 0.4);
+        tl.from(`${id} .chip`, { y: 24, opacity: 0, duration: 0.4, stagger: 0.06, ease: "back.out(2)" }, t + 0.5);
+        tl.fromTo(`${id} .shape`, { rotation: -30, scale: 0.6 }, { rotation: 20, scale: 1, duration: 2.4, ease: "power2.out" }, t + 0.2);
+      });
+
+      // Scene 3: counters
+      tl.from("#s3 .stat", { y: 80, opacity: 0, duration: 0.6, stagger: 0.12, ease: "expo.out" }, 15.05);
+      const c1 = { v: 0 }, c2 = { v: 0 };
+      tl.to(c1, { v: 11, duration: 0.9, ease: "power2.out", onUpdate: () => (document.getElementById("n1").textContent = Math.round(c1.v)) }, 15.1);
+      tl.to(c2, { v: 3, duration: 0.9, ease: "power2.out", onUpdate: () => (document.getElementById("n2").textContent = Math.round(c2.v)) }, 15.2);
+
+      // Scene 4
+      tl.fromTo("#s4", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)", duration: 0.7, ease: "expo.inOut" }, 17.5);
+      tl.from("#s4 h2", { y: 60, opacity: 0, duration: 0.7, ease: "expo.out" }, 17.8);
+      tl.from("#s4 .handle", { y: 30, opacity: 0, duration: 0.6, ease: "expo.out" }, 18.0);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

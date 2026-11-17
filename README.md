@@ -1,22 +1,59 @@
 # Sanjay Krishna K — Portfolio
 
-Personal portfolio website built by **Sanjay Krishna K**.
+**Stack**: React · Vite · TypeScript · Tailwind CSS · Framer Motion · Remotion · HyperFrames
 
-**Stack**: React + Vite + TypeScript + Tailwind CSS + Framer Motion
-
-## Getting Started
+## Run it
 
 ```sh
 npm install
-npm run dev
+npm run dev          # http://localhost:8080
 ```
 
-## Build
+## Editing content
+
+All text lives in [`src/data/portfolio.ts`](src/data/portfolio.ts): profile, projects, experience and skills.
+
+- **Résumé link**: put `resume.pdf` in `public/` and set `profile.resume = "resume.pdf"`.
+
+## Project animations (Remotion)
+
+The animated panels next to each featured project are Remotion compositions in
+[`src/remotion/compositions.tsx`](src/remotion/compositions.tsx), played in the page with `@remotion/player`.
+They are drawn in code (the ARCEUX Control one runs a real A* search) and only play while visible.
+
+## Showreel video (HyperFrames)
+
+The hero video is a HyperFrames composition in [`video/showreel/index.html`](video/showreel/index.html).
+To change and re-render it (needs Node 22+ and FFmpeg):
 
 ```sh
-npm run build
+cd video/showreel
+npm run check        # lint + layout checks
+npm run render       # → showreel-1080.mp4
+# compress for the web (the site loads public/showreel-720.mp4):
+ffmpeg -i showreel-1080.mp4 -vf scale=1280:-2 -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p -movflags +faststart -an ../../public/showreel-720.mp4
+ffmpeg -ss 1.9 -i showreel-1080.mp4 -frames:v 1 -vf scale=1280:-1 ../../public/showreel-poster.jpg
 ```
 
-## Deployment
+## Deploy to Vercel
 
-Build the project and deploy the `dist/` folder to any static hosting (Vercel, Netlify, GitHub Pages, etc.).
+The project is configured for Vercel in [`vercel.json`](vercel.json) (Vite preset, `npm ci`, output `dist`,
+SPA fallback, long-term caching for hashed assets).
+
+**Option A: from GitHub**
+1. Push this folder to a GitHub repository.
+2. On vercel.com choose **Add New → Project**, import the repository and click **Deploy**.
+   No settings need changing.
+
+**Option B: from the terminal**
+```sh
+npx vercel          # first run links the project and creates a preview URL
+npx vercel --prod   # production deploy
+```
+
+## Other hosting
+
+```sh
+npm run build        # outputs dist/, served from the domain root
+npm run deploy       # GitHub Pages at /portfolio/ (builds with BASE_PATH=/portfolio/)
+```

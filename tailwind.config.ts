@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Space Grotesk", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["Instrument Serif", "Georgia", "serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
@@ -51,11 +52,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        neon: {
-          cyan: "hsl(var(--neon-orange))",
-          green: "hsl(var(--neon-ember))",
-          purple: "hsl(var(--neon-flame))",
-        },
+        flame: "hsl(var(--flame))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

@@ -1,49 +1,40 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
-import SkillsSection from "@/components/SkillsSection";
-import ProjectsSection from "@/components/ProjectsSection";
-import VisionSection from "@/components/VisionSection";
-import ContactForm from "@/components/ContactForm";
-import FooterSection from "@/components/FooterSection";
-import CursorFollower from "@/components/CursorFollower";
-import ParticleGrid from "@/components/ParticleGrid";
-import ScrollProgress from "@/components/ScrollProgress";
-import BackToTop from "@/components/BackToTop";
-import SectionDivider from "@/components/SectionDivider";
-import NoiseOverlay from "@/components/NoiseOverlay";
-import EasterEgg from "@/components/EasterEgg";
+import { useCallback, useState } from "react";
+import Hero from "@/components/site/Hero";
+import Work from "@/components/site/Work";
+import Playground from "@/components/site/Playground";
+import { About, Contact, Marquee, Nav } from "@/components/site/Sections";
+import { CommandPalette, Cursor, Preloader } from "@/components/site/Extras";
+
+// Show the intro loader once per browser session
+const seenIntro = () => {
+  try { return sessionStorage.getItem("intro") === "1"; } catch { return false; }
+};
 
 const Index = () => {
+  const [ready, setReady] = useState(seenIntro);
+  const done = useCallback(() => {
+    try { sessionStorage.setItem("intro", "1"); } catch { /* storage blocked */ }
+    setReady(true);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
-      {/* Full-page animated particle background */}
-      <div className="fixed inset-0 z-0">
-        <ParticleGrid />
-      </div>
-
-      <NoiseOverlay />
-      <ScrollProgress />
-      <CursorFollower />
-      <BackToTop />
-      <EasterEgg />
-
-      <div className="relative z-10">
-        <Navbar />
-        <HeroSection />
-        <SectionDivider />
-        <AboutSection />
-        <SectionDivider />
-        <SkillsSection />
-        <SectionDivider />
-        <ProjectsSection />
-        <SectionDivider />
-        <VisionSection />
-        <SectionDivider />
-        <ContactForm />
-        <SectionDivider />
-        <FooterSection />
-      </div>
+    <div className="grain min-h-screen overflow-x-clip bg-background">
+      {!ready && <Preloader onDone={done} />}
+      <Cursor />
+      <CommandPalette />
+      <a href="#work" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-foreground focus:px-4 focus:py-2 focus:text-background">
+        Skip to projects
+      </a>
+      {/* The page mounts behind the loader's curtain so the hero animation starts as it lifts */}
+      <Nav />
+      <main>
+        <Hero start={ready} />
+        <Marquee />
+        <Work />
+        <Playground />
+        <About />
+        <Contact />
+      </main>
     </div>
   );
 };

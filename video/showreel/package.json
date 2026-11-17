@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-showreel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.9.63 preview",
+    "check": "npx --yes hyperframes@0.9.63 check",
+    "render": "npx --yes hyperframes@0.9.63 render -o showreel-1080.mp4",
+    "publish": "npx --yes hyperframes@0.9.63 publish"
+  }
+}
