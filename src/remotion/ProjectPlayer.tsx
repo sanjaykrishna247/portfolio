@@ -17,18 +17,25 @@ const ProjectPlayer = ({ slug, label }: { slug: string; label: string }) => {
   const ref = useRef<PlayerRef>(null);
   const box = useRef<HTMLDivElement>(null);
 
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const el = box.current;
-    if (!el) return;
-    if (reduced) {
-      ref.current?.seekTo(150);
-      return;
-    }
-    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? ref.current?.play() : ref.current?.pause()), { threshold: 0.25 });
+    if (!el || reduced) return;
+    // The player autoplays on its own; this only pauses it while it is off screen to save CPU,
+    // and resumes it when it comes back. If the observer never fires, the animation still plays.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        const p = ref.current;
+        if (!p) return;
+        if (e.isIntersecting && !p.isPlaying()) p.play();
+        else if (!e.isIntersecting && p.isPlaying()) p.pause();
+      },
+      { threshold: 0.1 },
+    );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [reduced]);
 
   const Comp = bySlug[slug];
   if (!Comp) return null;
@@ -43,6 +50,9 @@ const ProjectPlayer = ({ slug, label }: { slug: string; label: string }) => {
         compositionWidth={W}
         compositionHeight={H}
         loop
+        autoPlay={!reduced}
+        // start part-way in so the panel is never an empty colour block, even before it plays
+        initialFrame={reduced ? 150 : 40}
         controls={false}
         clickToPlay={false}
         doubleClickToFullscreen={false}

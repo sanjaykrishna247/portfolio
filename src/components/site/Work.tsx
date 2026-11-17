@@ -8,6 +8,30 @@ const ProjectPlayer = lazy(() => import("@/remotion/ProjectPlayer"));
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+/** Title that reveals word by word when it scrolls into view */
+const RevealTitle = ({ text, className }: { text: string; className?: string }) => (
+  <motion.h3
+    className={className}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true, margin: "-60px" }}
+    transition={{ staggerChildren: 0.08, delayChildren: 0.15 }}
+    aria-label={text}
+  >
+    {text.split(" ").map((w, i) => (
+      <span key={i} className="mr-[0.25em] inline-block overflow-hidden pb-[0.1em] align-bottom" aria-hidden>
+        <motion.span
+          className="inline-block"
+          variants={{ hidden: { y: "105%", rotate: 4 }, show: { y: 0, rotate: 0 } }}
+          transition={{ duration: 0.8, ease }}
+        >
+          {w}
+        </motion.span>
+      </span>
+    ))}
+  </motion.h3>
+);
+
 export const SectionTitle = ({ index, title, note }: { index: string; title: string; note?: string }) => (
   <div className="mb-14 flex flex-wrap items-end justify-between gap-4 border-b border-foreground/15 pb-6">
     <h2 className="font-serif text-5xl leading-none text-foreground sm:text-7xl">
@@ -60,13 +84,26 @@ const Work = () => {
 
                 <div className={`lg:col-span-5 ${flip ? "lg:order-1" : ""}`}>
                   <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                    <span className="font-serif text-4xl normal-case tracking-normal" style={{ color: p.color }}>
+                    <motion.span
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.7, ease }}
+                      className="font-serif text-4xl normal-case tracking-normal"
+                      style={{ color: p.color }}
+                    >
                       {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="h-px w-8 bg-foreground/25" />
+                    </motion.span>
+                    <motion.span
+                      initial={{ scaleX: 0 }}
+                      whileInView={{ scaleX: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, delay: 0.2, ease }}
+                      className="h-px w-8 origin-left bg-foreground/25"
+                    />
                     <span>{p.context || p.year}</span>
                   </div>
-                  <h3 className="mt-4 font-serif text-4xl leading-[1.02] text-foreground sm:text-5xl">{p.title}</h3>
+                  <RevealTitle text={p.title} className="mt-4 font-serif text-4xl leading-[1.02] text-foreground sm:text-5xl" />
                   <p className="mt-4 leading-relaxed text-muted-foreground">{p.description}</p>
                   <ul className="mt-5 space-y-2">
                     {p.highlights.slice(0, 3).map((h) => (
@@ -119,7 +156,7 @@ const Work = () => {
                   <span>{p.year}{p.live ? " · live" : ""}</span>
                   <ArrowUpRight className="h-5 w-5 text-foreground transition group-hover:rotate-45 group-hover:text-flame" />
                 </div>
-                <h4 className="mt-8 font-serif text-3xl leading-tight text-foreground group-hover:text-background">{p.title}</h4>
+                <h4 className="mt-8 font-serif text-3xl leading-tight text-foreground transition-transform duration-500 group-hover:translate-x-2 group-hover:text-background">{p.title}</h4>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground group-hover:text-background/70">{p.description}</p>
                 <p className="mt-6 font-mono text-[11px] text-foreground/70 group-hover:text-flame">{p.stack.join("  /  ")}</p>
               </motion.a>
