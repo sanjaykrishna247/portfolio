@@ -14,7 +14,7 @@ const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 /** fade the whole scene out at the end so the loop restarts cleanly */
 const useLoopFade = () => {
   const f = useCurrentFrame();
-  return interpolate(f, [0, 8, DURATION - 14, DURATION - 1], [0, 1, 1, 0], clamp);
+  return interpolate(f, [0, 4, DURATION - 14, DURATION - 1], [0, 1, 1, 0], clamp);
 };
 
 const Label = ({ children, color = "rgba(255,255,255,0.75)" }: { children: string; color?: string }) => (
@@ -60,27 +60,27 @@ export const NexusGraph = () => {
           const [x1, y1] = NODES[a];
           const [x2, y2] = NODES[b];
           const len = Math.hypot(x2 - x1, y2 - y1);
-          const p = interpolate(f, [18 + i * 2.5, 40 + i * 2.5], [len, 0], clamp);
-          const hot = f > 95 && Math.max(hops[a], hops[b]) <= 1 + Math.floor((f - 95) / 18);
+          const p = interpolate(f, [3 + i * 0.8, 14 + i * 0.8], [len, 0], clamp);
+          const hot = f > 45 && Math.max(hops[a], hops[b]) <= 1 + Math.floor((f - 45) / 14);
           return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={hot ? "#fdba74" : "rgba(255,255,255,0.45)"} strokeWidth={hot ? 3 : 2} strokeDasharray={len} strokeDashoffset={p} />;
         })}
-        {f > 90 &&
+        {f > 40 &&
           [0, 1, 2].map((r) => {
-            const t = (f - 90 - r * 14) / 50;
+            const t = (f - 40 - r * 14) / 50;
             if (t < 0 || t > 1) return null;
             return <circle key={r} cx={NODES[VULN][0]} cy={NODES[VULN][1]} r={20 + t * 190} fill="none" stroke="#fb923c" strokeWidth={3} opacity={1 - t} />;
           })}
         {NODES.map(([x, y], i) => {
-          const s = spring({ frame: f - i * 3, fps, config: { damping: 12 } });
-          const reached = f > 95 && hops[i] <= Math.floor((f - 95) / 18);
-          const fill = i === VULN && f > 85 ? "#f97316" : reached ? "#fed7aa" : "#ffffff";
+          const s = spring({ frame: f - i * 1, fps, config: { damping: 12 } });
+          const reached = f > 45 && hops[i] <= Math.floor((f - 45) / 14);
+          const fill = i === VULN && f > 36 ? "#f97316" : reached ? "#fed7aa" : "#ffffff";
           return <circle key={i} cx={x} cy={y} r={(i === VULN ? 15 : 11) * s} fill={fill} />;
         })}
       </svg>
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 34, display: "flex", justifyContent: "center", gap: 14, alignItems: "center" }}>
         {agents.map((a, i) => {
-          const on = f > 125 + i * 18;
-          const s = spring({ frame: f - (125 + i * 18), fps, config: { damping: 14 } });
+          const on = f > 80 + i * 14;
+          const s = spring({ frame: f - (80 + i * 14), fps, config: { damping: 14 } });
           return (
             <div key={a} style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 20, padding: "10px 20px", borderRadius: 999, background: on ? "#fff" : "rgba(255,255,255,0.12)", color: on ? "#3730a3" : "rgba(255,255,255,0.6)", transform: `scale(${0.9 + 0.1 * Math.min(1, s)})` }}>
@@ -125,9 +125,9 @@ export const MedFollowFlow = () => {
       </svg>
       <div style={{ position: "absolute", left: 40, top: 120, width: 400, display: "flex", flexDirection: "column", gap: 14 }}>
         {PATIENTS.map((p, i) => {
-          const s = spring({ frame: f - 6 - i * 6, fps, config: { damping: 16 } });
-          const w = interpolate(f, [25 + i * 5, 70 + i * 5], [0, p.risk], { ...clamp, easing: Easing.out(Easing.cubic) });
-          const high = p.risk > 0.7 && f > 75;
+          const s = spring({ frame: f - 1 - i * 3, fps, config: { damping: 16 } });
+          const w = interpolate(f, [6 + i * 3, 36 + i * 3], [0, p.risk], { ...clamp, easing: Easing.out(Easing.cubic) });
+          const high = p.risk > 0.7 && f > 42;
           return (
             <div key={p.id} style={{ background: high ? "#fff7ed" : "rgba(255,255,255,0.95)", borderRadius: 14, padding: "14px 18px", transform: `translateX(${(1 - s) * -40}px)`, opacity: s, outline: high ? "3px solid #fb923c" : "none" }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontFamily: MONO, fontSize: 17, color: "#134e4a" }}>
@@ -143,9 +143,9 @@ export const MedFollowFlow = () => {
       </div>
       <div style={{ position: "absolute", right: 40, top: 150, width: 270, display: "flex", flexDirection: "column", gap: 16 }}>
         {channels.map((c, i) => {
-          const start = 95 + i * 16;
+          const start = 52 + i * 12;
           const s = spring({ frame: f - start, fps, config: { damping: 13 } });
-          const done = f > start + 22;
+          const done = f > start + 15;
           return (
             <div key={c} style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: SANS, fontSize: 20, fontWeight: 600, color: "#fff", background: "rgba(255,255,255,0.14)", borderRadius: 14, padding: "14px 18px", transform: `translateX(${(1 - s) * -160}px)`, opacity: Math.min(1, s) }}>
               <span style={{ display: "grid", placeItems: "center", width: 28, height: 28, borderRadius: 99, background: done ? "#fff" : "transparent", border: "2px solid #fff", color: "#0f766e", fontSize: 16 }}>{done ? "✓" : ""}</span>
@@ -153,7 +153,7 @@ export const MedFollowFlow = () => {
             </div>
           );
         })}
-        <div style={{ fontFamily: MONO, fontSize: 15, color: "rgba(255,255,255,0.75)", opacity: interpolate(f, [150, 165], [0, 1], clamp) }}>
+        <div style={{ fontFamily: MONO, fontSize: 15, color: "rgba(255,255,255,0.75)", opacity: interpolate(f, [95, 108], [0, 1], clamp) }}>
           message written by LLM
         </div>
       </div>
@@ -167,11 +167,11 @@ export const ArceuxRobot = () => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const fade = useLoopFade();
-  const x = interpolate(f, [0, 60], [-260, 250], { ...clamp, easing: Easing.out(Easing.cubic) });
+  const x = interpolate(f, [0, 32], [-260, 250], { ...clamp, easing: Easing.out(Easing.cubic) });
   const wheelRot = x * 1.6;
-  const arm = spring({ frame: f - 70, fps, config: { damping: 14, mass: 1.2 } });
-  const sweep = f > 95 ? Math.sin((f - 95) / 10) * 35 : 0;
-  const lidarOn = interpolate(f, [92, 100], [0, 1], clamp);
+  const arm = spring({ frame: f - 30, fps, config: { damping: 14, mass: 1.2 } });
+  const sweep = f > 50 ? Math.sin((f - 50) / 10) * 35 : 0;
+  const lidarOn = interpolate(f, [46, 54], [0, 1], clamp);
   const groundY = 420;
 
   return (
@@ -184,7 +184,7 @@ export const ArceuxRobot = () => {
           <line key={i} x1={((i * 40 - x * 0.4) % 880 + 880) % 880 - 40} y1={groundY + 14} x2={((i * 40 - x * 0.4) % 880 + 880) % 880 - 20} y2={groundY + 14} stroke="rgba(255,255,255,0.15)" strokeWidth={2} />
         ))}
         {/* target crate */}
-        <g opacity={interpolate(f, [40, 60], [0, 1], clamp)}>
+        <g opacity={interpolate(f, [10, 24], [0, 1], clamp)}>
           <rect x={640} y={330} width={90} height={90} rx={6} fill="none" stroke="#f59e0b" strokeWidth={3} />
           <line x1={640} y1={375} x2={730} y2={375} stroke="#f59e0b" strokeWidth={2} />
           <text x={685} y={445} textAnchor="middle" fill="#f59e0b" fontFamily={MONO} fontSize={14}>INSPECT</text>
@@ -286,10 +286,10 @@ export const AStarConsole = () => {
   const cell = 34;
   const ox = (W - COLS * cell) / 2;
   const oy = 92;
-  const exploredCount = Math.floor(interpolate(f, [10, 90], [0, SEARCH.explored.length], clamp));
+  const exploredCount = Math.floor(interpolate(f, [4, 50], [0, SEARCH.explored.length], clamp));
   const exploredSet = new Set(SEARCH.explored.slice(0, exploredCount));
-  const pathLen = interpolate(f, [92, 120], [0, SEARCH.path.length], clamp);
-  const pos = interpolate(f, [125, 195], [0, SEARCH.path.length - 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const pathLen = interpolate(f, [52, 70], [0, SEARCH.path.length], clamp);
+  const pos = interpolate(f, [72, 165], [0, SEARCH.path.length - 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   const i0 = Math.floor(pos), i1 = Math.min(SEARCH.path.length - 1, i0 + 1), t = pos - i0;
   const rx = ox + (SEARCH.path[i0][0] * (1 - t) + SEARCH.path[i1][0] * t) * cell + cell / 2;
   const ry = oy + (SEARCH.path[i0][1] * (1 - t) + SEARCH.path[i1][1] * t) * cell + cell / 2;
@@ -329,7 +329,7 @@ export const DriftChart = () => {
   const x0 = 70, x1 = 520, y0 = 420, y1 = 110;
   const px = (i: number) => x0 + (i / (SCORES.length - 1)) * (x1 - x0);
   const py = (v: number) => y0 - ((v - 40) / 40) * (y0 - y1);
-  const shown = interpolate(f, [10, 110], [1, SCORES.length], clamp);
+  const shown = interpolate(f, [3, 60], [1, SCORES.length], clamp);
   const n = Math.floor(shown);
   const pts = SCORES.slice(0, n).map((v, i) => `${px(i)},${py(v)}`);
   if (n < SCORES.length) {
@@ -337,8 +337,8 @@ export const DriftChart = () => {
     pts.push(`${px(n - 1) + (px(n) - px(n - 1)) * t},${py(SCORES[n - 1]) + (py(SCORES[n]) - py(SCORES[n - 1])) * t}`);
   }
   const crossed = shown > 8.6;
-  const alert = spring({ frame: f - 90, fps, config: { damping: 11 } });
-  const plan = spring({ frame: f - 120, fps, config: { damping: 15 } });
+  const alert = spring({ frame: f - 46, fps, config: { damping: 11 } });
+  const plan = spring({ frame: f - 70, fps, config: { damping: 15 } });
   const tasks = ["2 mock interviews", "DSA: graphs, 5 problems", "Rest day on Sunday"];
 
   return (
@@ -363,7 +363,7 @@ export const DriftChart = () => {
       <div style={{ position: "absolute", right: 30, top: 110, width: 230, background: "#fff", borderRadius: 18, padding: 20, transform: `translateY(${(1 - plan) * 40}px)`, opacity: Math.min(1, Math.max(0, plan)) }}>
         <div style={{ fontFamily: MONO, fontSize: 13, color: "#c2410c", letterSpacing: 1.5 }}>THIS WEEK'S PLAN</div>
         {tasks.map((t, i) => (
-          <div key={t} style={{ marginTop: 14, display: "flex", gap: 10, fontFamily: SANS, fontSize: 16, color: "#1c1917", opacity: interpolate(f, [135 + i * 10, 145 + i * 10], [0, 1], clamp) }}>
+          <div key={t} style={{ marginTop: 14, display: "flex", gap: 10, fontFamily: SANS, fontSize: 16, color: "#1c1917", opacity: interpolate(f, [82 + i * 8, 92 + i * 8], [0, 1], clamp) }}>
             <span style={{ color: "#e4572e" }}>●</span>
             {t}
           </div>
