@@ -1,6 +1,6 @@
 # Sanjay Krishna K — Portfolio
 
-**Stack**: React · Vite · TypeScript · Tailwind CSS · Framer Motion · Remotion · HyperFrames
+**Stack**: React · Vite · TypeScript · Tailwind CSS · Framer Motion · SVG animation · HyperFrames
 
 ## Run it
 
@@ -15,17 +15,12 @@ All text lives in [`src/data/portfolio.ts`](src/data/portfolio.ts): profile, pro
 
 - **Résumé link**: put `resume.pdf` in `public/` and set `profile.resume = "resume.pdf"`.
 
-## Project animations (Remotion)
+## Project animations
 
-The animations next to each featured project are Remotion compositions in
-[`src/remotion/compositions.tsx`](src/remotion/compositions.tsx) (the ARCEUX Control one runs a real A* search).
-They are rendered to MP4 + a poster image in `public/projects/`, so they autoplay in every browser
-without a click and a card is never empty. After editing a composition, re-render:
-
-```sh
-npm run dev                                   # in one terminal
-node scripts/render-projects.mjs              # in another (needs Chrome and ffmpeg)
-```
+The animated panels next to each featured project are plain SVG in
+[`src/components/site/ProjectArt.tsx`](src/components/site/ProjectArt.tsx), animated with SVG's own
+`<animate>` elements. They start as soon as the page renders, with no click, and every element's
+resting value is the finished scene, so a panel is never empty. The ARCEUX Control panel runs a real A* search.
 
 ## Showreel video (HyperFrames)
 

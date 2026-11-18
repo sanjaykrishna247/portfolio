@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
 import { projects } from "@/data/portfolio";
-// Project animations: Remotion compositions rendered to MP4 (see src/remotion, scripts/render-projects.mjs)
-import ProjectVideo from "./ProjectVideo";
+// Project animations: plain SVG that animates itself the moment the page renders
+import ProjectArt from "./ProjectArt";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -47,7 +47,7 @@ const Work = () => {
   return (
     <section id="work" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionTitle index="01" title="Selected work" note="Each animation is built in code with Remotion and shows what the project does." />
+        <SectionTitle index="01" title="Selected work" note="Each animation is drawn in code and shows what the project does." />
 
         <div className="space-y-24 sm:space-y-32">
           {featured.map((p, i) => {
@@ -67,7 +67,7 @@ const Work = () => {
                   aria-label={`${p.title}: open ${p.live ? "live site" : "source code"}`}
                 >
                   <div className="transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                    <ProjectVideo slug={p.slug} label={`Animated illustration of ${p.title}`} />
+                    <ProjectArt slug={p.slug} />
                   </div>
                   <span className="absolute right-4 top-4 grid h-11 w-11 scale-75 place-items-center rounded-full bg-white text-foreground opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100">
                     <ArrowUpRight className="h-5 w-5" />

@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import Hero from "@/components/site/Hero";
 import Work from "@/components/site/Work";
-import Playground from "@/components/site/Playground";
 import { About, Contact, Marquee, Nav } from "@/components/site/Sections";
 import { CommandPalette, Cursor, Preloader } from "@/components/site/Extras";
 
@@ -31,7 +30,6 @@ const Index = () => {
         <Hero start={ready} />
         <Marquee />
         <Work />
-        <Playground />
         <About />
         <Contact />
       </main>
