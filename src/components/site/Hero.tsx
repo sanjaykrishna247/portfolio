@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, type TargetAndTransition } from "framer-motion";
-import { ArrowDownRight, Command, Github, Mail, Pause, Play } from "lucide-react";
+import { ArrowDownRight, Command, Github, Linkedin, Mail, Pause, Play } from "lucide-react";
 import { Magnetic, openPalette } from "./Extras";
 import { profile, projects } from "@/data/portfolio";
 
@@ -126,14 +126,38 @@ const HeroInner = () => {
           Portfolio · {profile.location}
         </motion.p>
 
-        <div className="mt-5 flex items-end justify-between gap-6">
+        <div className="mt-5 flex flex-col-reverse gap-8 md:flex-row md:items-end md:justify-between">
           <motion.h1 style={{ y: nameY, opacity: nameOpacity }} className="font-serif text-[17vw] leading-[0.86] tracking-[-0.02em] text-foreground sm:text-[12vw] lg:text-[10.5rem]">
             <SplitWord text="Sanjay" delay={0} />
             <br />
             <SplitWord text="Krishna" delay={0.08} /> <SplitWord text="K" delay={0.22} className="italic text-flame" />
           </motion.h1>
-          <motion.div initial={{ opacity: 0, scale: 0.6, rotate: -40 }} animate={A({ opacity: 1, scale: 1, rotate: 0 })} transition={{ delay: 0.35, duration: 0.7, ease }} className="mb-4 hidden text-foreground md:block">
-            <Badge />
+          <motion.div
+            initial={{ opacity: 0, y: 30, rotate: 6 }}
+            animate={A({ opacity: 1, y: 0, rotate: 3 })}
+            transition={{ delay: 0.15, duration: 0.8, ease }}
+            className="relative w-36 shrink-0 self-start sm:w-48 md:mb-2 md:mr-6 md:w-56 md:self-auto lg:w-64"
+          >
+            <div className="overflow-hidden rounded-[26px] border-[6px] border-card bg-card shadow-[0_30px_60px_-30px_rgba(40,25,10,0.55)] transition-transform duration-500 hover:rotate-[-3deg] hover:scale-[1.02]">
+              <img
+                src={`${base}${profile.photo}`}
+                alt={`Portrait of ${profile.name}`}
+                width={900}
+                height={900}
+                fetchPriority="high"
+                className="aspect-[4/5] w-full object-cover object-top"
+              />
+            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.6, rotate: -40 }}
+              animate={A({ opacity: 1, scale: 1, rotate: -3 })}
+              transition={{ delay: 0.45, duration: 0.7, ease }}
+              className="absolute -bottom-10 -left-14 hidden text-foreground md:block"
+            >
+              <div className="rounded-full bg-background/90 p-1 backdrop-blur">
+                <Badge />
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -150,18 +174,23 @@ const HeroInner = () => {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Magnetic>
-              <a href="#work" data-cursor="Go" className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-semibold text-background transition hover:bg-flame">
-                See my work <ArrowDownRight className="h-4 w-4 transition-transform group-hover:rotate-[-45deg]" />
+              <a href="#work" data-cursor="Go" className="group inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-4 text-base font-semibold text-background transition hover:bg-flame">
+                See my work <ArrowDownRight className="h-5 w-5 transition-transform group-hover:rotate-[-45deg]" />
               </a>
               </Magnetic>
               <Magnetic>
-              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground">
-                <Github className="h-4 w-4" /> GitHub
+              <a href={profile.github} target="_blank" rel="noopener noreferrer" data-cursor="Open" className="inline-flex items-center gap-2.5 rounded-full border-2 border-foreground/25 bg-card px-7 py-4 text-base font-semibold text-foreground transition hover:border-foreground hover:bg-foreground hover:text-background">
+                <Github className="h-5 w-5" /> GitHub
               </a>
               </Magnetic>
               <Magnetic>
-              <a href={`mailto:${profile.email}`} className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground">
-                <Mail className="h-4 w-4" /> Email
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-cursor="Open" className="inline-flex items-center gap-2.5 rounded-full border-2 border-[#0a66c2]/40 bg-card px-7 py-4 text-base font-semibold text-[#0a66c2] transition hover:border-[#0a66c2] hover:bg-[#0a66c2] hover:text-white">
+                <Linkedin className="h-5 w-5" /> LinkedIn
+              </a>
+              </Magnetic>
+              <Magnetic>
+              <a href={`mailto:${profile.email}`} className="inline-flex items-center gap-2.5 rounded-full border-2 border-foreground/25 bg-card px-7 py-4 text-base font-semibold text-foreground transition hover:border-foreground">
+                <Mail className="h-5 w-5" /> Email
               </a>
               </Magnetic>
             </div>

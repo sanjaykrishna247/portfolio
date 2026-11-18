@@ -28,3 +28,6 @@ dist-ssr
 
 # HyperFrames working files (render cache, snapshots)
 video/showreel/.hyperframes
+
+# original photo (the site uses the optimised public/profile.jpg)
+WhatsApp Image*

@@ -229,11 +229,22 @@ export const Contact = () => {
             </button>
           </div>
 
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Magnetic strength={0.25}>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" data-cursor="Open" className="inline-flex items-center gap-3 rounded-full border-2 border-background/30 px-8 py-4 text-lg font-semibold transition hover:border-background hover:bg-background hover:text-foreground">
+              <Github className="h-6 w-6" /> GitHub
+            </a>
+            </Magnetic>
+            <Magnetic strength={0.25}>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-cursor="Open" className="inline-flex items-center gap-3 rounded-full border-2 border-background/30 px-8 py-4 text-lg font-semibold transition hover:border-[#0a66c2] hover:bg-[#0a66c2] hover:text-white">
+              <Linkedin className="h-6 w-6" /> LinkedIn
+            </a>
+            </Magnetic>
+          </div>
+
           <div className="mt-20 flex flex-col justify-between gap-6 border-t border-background/15 pt-8 text-sm text-background/60 sm:flex-row sm:items-center">
             <p>© {new Date().getFullYear()} {profile.name}. Designed and built by me.</p>
             <div className="flex gap-6">
-              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 transition hover:text-background"><Github className="h-4 w-4" /> GitHub</a>
-              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 transition hover:text-background"><Linkedin className="h-4 w-4" /> LinkedIn</a>
               <a href="#top" className="transition hover:text-background">Back to top ↑</a>
             </div>
           </div>

@@ -19,6 +19,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/sanjaykrishna-k",
   // Put resume.pdf in /public and set this to "resume.pdf" to show a résumé link.
   resume: "",
+  photo: "profile.jpg",
 };
 
 export interface Project {
