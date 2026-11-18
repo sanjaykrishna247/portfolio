@@ -133,12 +133,12 @@ const HeroInner = () => {
             <SplitWord text="Krishna" delay={0.08} /> <SplitWord text="K" delay={0.22} className="italic text-flame" />
           </motion.h1>
           <motion.div
-            initial={{ opacity: 0, y: 30, rotate: 6 }}
-            animate={A({ opacity: 1, y: 0, rotate: 3 })}
+            initial={{ opacity: 0, y: 30, rotate: 0 }}
+            animate={A({ opacity: 1, y: 0, rotate: 0 })}
             transition={{ delay: 0.15, duration: 0.8, ease }}
             className="relative w-36 shrink-0 self-start sm:w-48 md:mb-2 md:mr-6 md:w-56 md:self-auto lg:w-64"
           >
-            <div className="overflow-hidden rounded-[26px] border-[6px] border-card bg-card shadow-[0_30px_60px_-30px_rgba(40,25,10,0.55)] transition-transform duration-500 hover:rotate-[-3deg] hover:scale-[1.02]">
+            <div className="overflow-hidden rounded-[26px] border-[6px] border-card bg-card shadow-[0_30px_60px_-30px_rgba(40,25,10,0.55)] transition-transform duration-500 hover:-translate-y-1 hover:scale-[1.02]">
               <img
                 src={`${base}${profile.photo}`}
                 alt={`Portrait of ${profile.name}`}
