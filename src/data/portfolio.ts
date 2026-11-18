@@ -17,8 +17,8 @@ export const profile = {
   email: "sanjaykrishna.k.07@gmail.com",
   github: `https://github.com/${GITHUB_USER}`,
   linkedin: "https://www.linkedin.com/in/sanjaykrishna-k",
-  // Put resume.pdf in /public and set this to "resume.pdf" to show a résumé link.
-  resume: "",
+  // PDF in /public; set to "" to hide the Résumé section
+  resume: "resume.pdf",
   photo: "profile.jpg",
 };
 
@@ -196,6 +196,13 @@ export const projects: Project[] = [
 
 export const experience = [
   {
+    period: "May — Jun 2026",
+    title: "AI Development Intern",
+    org: "Aparajitha Software Services Pvt. Ltd., Madurai",
+    text: "Contributed to Knowledge Analyzer, which parses Acts, Rules and Amendments into actionable controls and checklists for the compliance audit team. Built ML retraining pipelines so risk and compliance scores stay up to date with the latest regulations, and customised an analytics engine showing risk posture across the organisation's verticals.",
+    tags: ["React 19", "TypeScript", "FastAPI", "PostgreSQL", "Claude 3.5 Sonnet"],
+  },
+  {
     period: "2026",
     title: "Smart India Hackathon 2026",
     org: "Team Krenoviantz",
@@ -204,7 +211,7 @@ export const experience = [
     tags: ["React", "Three.js", "Robotics UI"],
   },
   {
-    period: "2024 — Present",
+    period: "2024 — 2028",
     title: "B.E. Computer Science & Engineering",
     org: "SKCET, Coimbatore",
     text: "Studying computer science while building projects in applied AI and full-stack development.",

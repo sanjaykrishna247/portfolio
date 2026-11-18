@@ -158,7 +158,7 @@ export const CommandPalette = () => {
       <CommandList className="max-h-[420px]">
         <CommandEmpty>Nothing found.</CommandEmpty>
         <CommandGroup heading="Go to">
-          {[["work", "Selected work"], ["about", "About"], ["contact", "Contact"]].map(([id, l]) => (
+          {[["work", "Selected work"], ["about", "About"], ["resume", "Résumé"], ["contact", "Contact"]].map(([id, l]) => (
             <CommandItem key={id} onSelect={() => jump(id)}>
               <Hash className="mr-2 h-4 w-4" /> {l}
             </CommandItem>

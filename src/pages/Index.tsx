@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import Hero from "@/components/site/Hero";
 import Work from "@/components/site/Work";
 import { About, Contact, Marquee, Nav } from "@/components/site/Sections";
+import Resume from "@/components/site/Resume";
 import { CommandPalette, Cursor, Preloader } from "@/components/site/Extras";
 
 // Show the intro loader once per browser session
@@ -31,6 +32,7 @@ const Index = () => {
         <Marquee />
         <Work />
         <About />
+        <Resume />
         <Contact />
       </main>
     </div>

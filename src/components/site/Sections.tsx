@@ -9,6 +9,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const links = [
   { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
+  { href: "#resume", label: "Résumé" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -202,7 +203,7 @@ export const Contact = () => {
       <div className="relative overflow-hidden rounded-[28px] bg-foreground px-6 py-20 text-background sm:px-12 sm:py-28">
         <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full border-[40px] border-flame/90 sm:h-[28rem] sm:w-[28rem] sm:border-[60px]" />
         <div className="relative mx-auto max-w-7xl">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-background/60">03 · Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-background/60">04 · Contact</p>
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
