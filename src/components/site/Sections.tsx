@@ -9,7 +9,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const links = [
   { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
-  { href: "#resume", label: "Résumé" },
+  { href: "#resume", label: "Resume" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -150,7 +150,7 @@ export const About = () => (
           </ol>
           {profile.resume && (
             <a href={`${import.meta.env.BASE_URL}${profile.resume}`} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 font-semibold text-foreground hover:text-primary">
-              Full résumé <ArrowUpRight className="h-4 w-4" />
+              Full resume <ArrowUpRight className="h-4 w-4" />
             </a>
           )}
         </div>

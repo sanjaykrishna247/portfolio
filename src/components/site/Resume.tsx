@@ -10,7 +10,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export const RESUME_URL = `${base}${profile.resume}`;
 const DOWNLOAD_NAME = "Sanjay-Krishna-K-Resume.pdf";
 
-/** Opens the résumé: an in-page viewer on larger screens, the browser's PDF viewer on phones
+/** Opens the resume: an in-page viewer on larger screens, the browser's PDF viewer on phones
  *  (mobile browsers can't show a PDF inside a page). */
 export const openResume = (showDialog: () => void) => {
   if (window.matchMedia("(min-width: 768px)").matches) showDialog();
@@ -30,7 +30,7 @@ const Resume = () => {
   return (
     <section id="resume" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionTitle index="03" title="Résumé" note="One page, PDF. View it right here or download a copy." />
+        <SectionTitle index="03" title="Resume" note="One page, PDF. View it right here or download a copy." />
 
         <div className="grid items-center gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
@@ -51,7 +51,7 @@ const Resume = () => {
                 onClick={() => openResume(() => setOpen(true))}
                 className="inline-flex items-center gap-2.5 rounded-full bg-foreground px-7 py-4 text-base font-semibold text-background transition hover:bg-flame"
               >
-                <Eye className="h-5 w-5" /> View résumé
+                <Eye className="h-5 w-5" /> View resume
               </button>
               <a
                 href={RESUME_URL}
@@ -68,7 +68,7 @@ const Resume = () => {
             type="button"
             onClick={() => openResume(() => setOpen(true))}
             data-cursor="View"
-            aria-label="Open résumé"
+            aria-label="Open resume"
             initial={{ opacity: 0, y: 40, rotate: 2 }}
             whileInView={{ opacity: 1, y: 0, rotate: 1.5 }}
             viewport={{ once: true, margin: "0px 0px 200px 0px" }}
@@ -80,7 +80,7 @@ const Resume = () => {
             <span className="relative block overflow-hidden rounded-2xl border border-foreground/10 bg-white shadow-[0_30px_60px_-30px_rgba(40,25,10,0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1.5deg]">
               <img
                 src={`${base}resume-preview.jpg`}
-                alt="Preview of Sanjay Krishna K's résumé"
+                alt="Preview of Sanjay Krishna K's resume"
                 width={1004}
                 height={1300}
                 loading="lazy"
@@ -98,7 +98,7 @@ const Resume = () => {
         <DialogContent className="flex h-[92vh] max-w-5xl flex-col gap-0 overflow-hidden rounded-2xl p-0">
           <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-3 pr-14">
             <div>
-              <DialogTitle className="font-serif text-2xl">Résumé</DialogTitle>
+              <DialogTitle className="font-serif text-2xl">Resume</DialogTitle>
               <DialogDescription className="text-xs">{profile.name} · PDF</DialogDescription>
             </div>
             <div className="flex gap-2">
@@ -110,7 +110,7 @@ const Resume = () => {
               </a>
             </div>
           </div>
-          <iframe src={`${RESUME_URL}#view=FitH`} title="Résumé PDF" className="h-full w-full flex-1 bg-muted" />
+          <iframe src={`${RESUME_URL}#view=FitH`} title="Resume PDF" className="h-full w-full flex-1 bg-muted" />
         </DialogContent>
       </Dialog>
     </section>

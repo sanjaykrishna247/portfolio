@@ -17,7 +17,7 @@ export const profile = {
   email: "sanjaykrishna.k.07@gmail.com",
   github: `https://github.com/${GITHUB_USER}`,
   linkedin: "https://www.linkedin.com/in/sanjaykrishna-k",
-  // PDF in /public; set to "" to hide the Résumé section
+  // PDF in /public; set to "" to hide the Resume section
   resume: "resume.pdf",
   photo: "profile.jpg",
 };
